@@ -17,6 +17,9 @@ export const RPC_URL =
 export const HORIZON_URL =
   import.meta.env.VITE_HORIZON_URL || 'https://horizon-testnet.stellar.org';
 
+export const FRIENDBOT_URL =
+  import.meta.env.VITE_FRIENDBOT_URL || 'https://friendbot.stellar.org';
+
 /** Native XLM Stellar Asset Contract on testnet */
 export const DEFAULT_TOKEN =
   import.meta.env.VITE_TOKEN_ADDRESS ||

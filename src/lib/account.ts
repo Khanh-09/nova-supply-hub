@@ -1,4 +1,4 @@
-import { HORIZON_URL, NETWORK } from './contract';
+import { FRIENDBOT_URL, HORIZON_URL, NETWORK } from './contract';
 
 export interface StellarErrorInfo {
   message: string;
@@ -105,24 +105,28 @@ export async function checkAccountExists(publicKey: string): Promise<boolean> {
 }
 
 export async function fundTestnetAccount(publicKey: string): Promise<string | null> {
+  if (!publicKey) throw new Error('Missing public key for Friendbot funding');
   if (NETWORK !== 'TESTNET') {
     throw new Error('Friendbot funding is only available on Testnet');
   }
 
-  const url = `${HORIZON_URL}/friendbot?addr=${encodeURIComponent(publicKey)}`;
+  const url = `${FRIENDBOT_URL}?addr=${encodeURIComponent(publicKey)}`;
   const res = await fetch(url, { method: 'GET' });
 
+  const body = await res.text().catch(() => '');
   if (!res.ok) {
-    const body = await res.text().catch(() => '');
+    if (res.status === 400 && /already funded to starting balance/i.test(body)) {
+      return null;
+    }
     throw new Error(body || `Friendbot failed (${res.status}). Use Open Friendbot link.`);
   }
 
-  const data = await res.json();
+  const data = JSON.parse(body || '{}');
   return data?.hash || null;
 }
 
 export function friendbotUrl(publicKey: string): string {
-  return `${HORIZON_URL}/friendbot?addr=${encodeURIComponent(publicKey)}`;
+  return `${FRIENDBOT_URL}?addr=${encodeURIComponent(publicKey)}`;
 }
 
 export function laboratoryFundUrl(publicKey: string): string {

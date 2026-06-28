@@ -78,9 +78,11 @@ export default function QuickActions({ publicKey, loading, onInit, onRefresh }: 
       </div>
 
       <div className="quick-actions-grid">
-        <button type="button" className="action-tile" onClick={handleFund} disabled={funding}>
+        <button type="button" className="action-tile" onClick={handleFund} disabled={funding || funded === true}>
           <span className="action-icon">💧</span>
-          <span className="action-title">{funding ? 'Funding…' : 'Fund Account'}</span>
+          <span className="action-title">
+            {funding ? 'Funding…' : funded === true ? 'Already funded' : 'Fund Account'}
+          </span>
           <span className="action-desc">Free testnet XLM via Friendbot</span>
         </button>
         <button type="button" className="action-tile" onClick={handleInit} disabled={loading}>
