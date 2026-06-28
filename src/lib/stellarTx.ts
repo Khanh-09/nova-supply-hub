@@ -82,7 +82,7 @@ export async function simulateContractCall(
 ) {
   const DUMMY_KEY = 'GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWHF';
 
-  let acct;
+  let acct: any;
   try {
     acct = await server.getAccount(DUMMY_KEY);
   } catch {
@@ -164,7 +164,7 @@ export async function invokeContract(
         .addOperation(contract.call(functionName, ...scArgs))
         .setTimeout(30);
       if (sim.transactionData) {
-        manualTx.setSorobanData(sim.transactionData);
+        manualTx.setSorobanData(sim.transactionData as any);
       }
       preparedTx = manualTx.build();
     } else {
@@ -304,7 +304,7 @@ export async function fetchContractEvents(startLedger: number | null = null): Pr
       type: evt.type,
       ledger: evt.ledger,
       txHash: evt.txHash,
-      contractId: evt.contractId?.toString?.() ?? evt.contractId,
+      contractId: evt.contractId ? evt.contractId.toString() : undefined,
       topics:
         evt.topic?.map((t) => {
           try {
