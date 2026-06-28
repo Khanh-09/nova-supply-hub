@@ -169,12 +169,12 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 
 - [x] Public GitHub repository
 - [x] README with complete documentation
-- [ ] Minimum 10+ meaningful commits
+- [x] Minimum 10+ meaningful commits
 - [x] Live demo link (Vercel / Netlify)
 - [x] **Contract deployment address** (in README + `deployment.json`)
 - [x] **Transaction hash** for contract interaction (in `deployment.json`)
-- [ ] Screenshot: mobile responsive UI
-- [ ] Screenshot: CI/CD pipeline running
+- [x] Screenshot: mobile responsive UI
+- [x] Screenshot: CI/CD pipeline running
 - [x] Test output with 3+ passing tests
 - [ ] Demo video link (1–2 minutes)
 
@@ -182,10 +182,13 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 
 ## 📸 Screenshots
 
-Add to `docs/screenshots/` after deploy:
+Below are the submission screenshots included in `docs/screenshots/`:
 
-- `mobile-ui.png` — responsive catalog on phone viewport
-- `ci-pipeline.png` — GitHub Actions all green
+### Mobile responsive UI
+![Mobile responsive UI](docs/screenshots/mobile-ui.png)
+
+### GitHub Actions CI/CD pipeline
+![CI/CD pipeline](docs/screenshots/ci-pipeline.png)
 
 ---
 
