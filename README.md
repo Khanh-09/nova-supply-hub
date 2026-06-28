@@ -1,6 +1,6 @@
 # 🛰️ Nova Supply Hub — Orbital Logistics dApp (Soroban)
 
-[![CI/CD Pipeline](https://github.com/your-username/nova-supply-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/nova-supply-hub/actions/workflows/ci.yml)
+[![CI/CD Pipeline](https://github.com/Khanh-09/nova-supply-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/Khanh-09/nova-supply-hub/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 **Nova Supply Hub** is a production-ready Stellar Soroban dApp for orbital logistics procurement. Users connect a Freighter wallet, order space supplies (fuel cells, solar panels, docking hardware), and pay in testnet XLM via cross-contract calls to the Stellar Asset Contract (SAC).
@@ -17,7 +17,7 @@ Unlike a generic demo, this project ships a full stack: Rust smart contract, Typ
 | **Network** | Stellar Testnet (Protocol 22) |
 | **Payment Token** | Native XLM via SAC |
 | **Token Contract** | `CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC` |
-| **Live Demo** | https://nova-supply-hub.netlify.app |
+| **Live Demo** | https://nova-supply-hub.vercel.app |
 | **Example Tx Hash** | `bc25446015cbd314d8c3adfdab751f15782676542bbf8a62385116d778ce3d89` |
 
 > **Important for reviewers:** The Contract ID is a 56-character address starting with `C`. After running `npm run deploy:contract`, it is written to both `.env` and `deployment.json`. CI also auto-deploys on push to `main`/`master` and uploads `deployment.json` as an artifact.
@@ -167,10 +167,10 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 
 ## ✅ Submission Checklist
 
-- [ ] Public GitHub repository
+- [x] Public GitHub repository
 - [x] README with complete documentation
 - [ ] Minimum 10+ meaningful commits
-- [ ] Live demo link (Vercel / Netlify)
+- [x] Live demo link (Vercel / Netlify)
 - [x] **Contract deployment address** (in README + `deployment.json`)
 - [x] **Transaction hash** for contract interaction (in `deployment.json`)
 - [ ] Screenshot: mobile responsive UI
