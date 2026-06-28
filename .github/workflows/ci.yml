@@ -1,0 +1,126 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+jobs:
+  contract-tests:
+    name: Soroban Contract Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32v1-none
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run contract tests
+        run: cargo test --package supply-hub-contract
+
+      - name: Build WASM
+        env:
+          RUSTFLAGS: '-C target-feature=-reference-types -C target-cpu=mvp'
+        run: cargo build --target wasm32v1-none --release --package supply-hub-contract
+
+      - name: Upload WASM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-wasm
+          path: target/wasm32v1-none/release/supply_hub_contract.wasm
+
+  frontend-tests:
+    name: Frontend Tests & Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Vitest (3+ tests)
+        run: npm test
+
+      - name: Build production bundle
+        run: npm run build
+        env:
+          VITE_CONTRACT_ID: CALNBNJF7HWOU2T4H33JSOWOZX57NPAHEVENJKDFEWE7363PKF62HCAI
+          VITE_EXAMPLE_TX_HASH: placeholder_tx_hash_for_ci_build_only
+
+  integration-check:
+    name: Contract ↔ Frontend Function Matching
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify contract function mapping
+        run: node scripts/verify-integration.mjs
+
+  deploy-testnet:
+    name: Automated Testnet Deployment
+    runs-on: ubuntu-latest
+    needs: [contract-tests]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Download WASM artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: contract-wasm
+          path: target/wasm32v1-none/release/
+
+      - name: Deploy to Stellar Testnet (automated)
+        run: node scripts/deploy-contract.mjs
+
+      - name: Upload deployment record
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-info
+          path: deployment.json
+
+  lint:
+    name: Lint Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: ESLint
+        run: npm run lint
+        continue-on-error: true

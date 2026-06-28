@@ -1,0 +1,12 @@
+{
+  "network": "TESTNET",
+  "contractId": "CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT",
+  "deployer": "GCZCPOOLC5BZ3F2RO3GQI2XRYHPEDN2GFVSJC5ZOCYQH2KW4QXN3JORC",
+  "wasmHash": "6d6aa9887e8e629ffbc7b248e5cae52264faf4e287ed81041c237d4ae5bee516",
+  "transactions": {
+    "upload": "2b6a258ca0677fff4e95a6d2687a02fa8f35f45d26a7c756fea452ff98ea85d6",
+    "create": "8c4ed6f5326f010c6f49de99cdfa37e5700892de30540fb51587acc1acf2d7ba",
+    "init": "bc25446015cbd314d8c3adfdab751f15782676542bbf8a62385116d778ce3d89"
+  },
+  "deployedAt": "2026-06-28T09:38:04.678Z"
+}

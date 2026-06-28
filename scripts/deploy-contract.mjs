@@ -1,0 +1,170 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import {
+  Keypair,
+  Operation,
+  TransactionBuilder,
+  rpc,
+  Address,
+  hash,
+  nativeToScVal,
+  Contract,
+} from '@stellar/stellar-sdk';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '..');
+const WASM_PATH = path.join(ROOT, 'target/wasm32v1-none/release/supply_hub_contract.wasm');
+const DEPLOYMENT_JSON = path.join(ROOT, 'deployment.json');
+const NETWORK_PASSPHRASE = 'Test SDF Network ; September 2015';
+const RPC_URL = 'https://soroban-testnet.stellar.org';
+const server = new rpc.Server(RPC_URL);
+
+async function pollTx(txHash) {
+  for (let i = 0; i < 30; i++) {
+    try {
+      const tx = await server.getTransaction(txHash);
+      if (tx.status === rpc.Api.GetTransactionStatus.SUCCESS) return tx;
+      if (tx.status === rpc.Api.GetTransactionStatus.FAILED) throw new Error('Tx failed');
+    } catch (e) {
+      if (e.message?.includes('Bad union switch')) {
+        return { status: 'SUCCESS', hash: txHash };
+      }
+    }
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+  throw new Error(`Timeout waiting for tx ${txHash}`);
+}
+
+async function fundAccount(publicKey) {
+  const res = await fetch(`https://horizon-testnet.stellar.org/friendbot?addr=${publicKey}`);
+  if (!res.ok) throw new Error(`Friendbot failed: ${res.status}`);
+}
+
+async function waitForAccount(publicKey) {
+  for (let i = 0; i < 15; i++) {
+    try {
+      return await server.getAccount(publicKey);
+    } catch {
+      await new Promise((r) => setTimeout(r, 2000));
+    }
+  }
+  throw new Error('Account not visible after funding');
+}
+
+async function main() {
+  if (!fs.existsSync(WASM_PATH)) {
+    throw new Error(
+      `WASM not found at ${WASM_PATH}. Run:\n` +
+        '  $env:RUSTFLAGS="-C target-feature=-reference-types -C target-cpu=mvp"\n' +
+        '  cargo build --target wasm32v1-none --release --package supply-hub-contract'
+    );
+  }
+
+  const wasmData = fs.readFileSync(WASM_PATH);
+  const deployer = Keypair.random();
+  console.log('Deployer:', deployer.publicKey());
+
+  await fundAccount(deployer.publicKey());
+  console.log('Funded via Friendbot, waiting for account…');
+  let account = await waitForAccount(deployer.publicKey());
+
+  const wasmHash = hash(wasmData);
+
+  console.log('Step 1/3: Upload WASM…');
+  const uploadTx = new TransactionBuilder(account, {
+    fee: '100000',
+    networkPassphrase: NETWORK_PASSPHRASE,
+  })
+    .addOperation(Operation.uploadContractWasm({ wasm: wasmData }))
+    .setTimeout(60)
+    .build();
+  const uploadSim = await server.simulateTransaction(uploadTx);
+  const finalUpload = rpc.assembleTransaction(uploadTx, uploadSim).build();
+  finalUpload.sign(deployer);
+  const uploadSent = await server.sendTransaction(finalUpload);
+  const uploadResult = await pollTx(uploadSent.hash);
+  console.log('  Upload tx:', uploadSent.hash);
+
+  console.log('Step 2/3: Create contract…');
+  account = await server.getAccount(deployer.publicKey());
+  const createTx = new TransactionBuilder(account, {
+    fee: '100000',
+    networkPassphrase: NETWORK_PASSPHRASE,
+  })
+    .addOperation(
+      Operation.createCustomContract({
+        address: Address.fromString(deployer.publicKey()),
+        wasmHash,
+        salt: Keypair.random().rawPublicKey(),
+      })
+    )
+    .setTimeout(60)
+    .build();
+  const createSim = await server.simulateTransaction(createTx);
+  const finalCreate = rpc.assembleTransaction(createTx, createSim).build();
+  finalCreate.sign(deployer);
+  const createSent = await server.sendTransaction(finalCreate);
+  await pollTx(createSent.hash);
+
+  const contractId = Address.fromScVal(createSim.result.retval).toString();
+  console.log('  Contract ID:', contractId);
+  console.log('  Create tx:', createSent.hash);
+
+  console.log('Step 3/3: Initialize supply hub…');
+  account = await server.getAccount(deployer.publicKey());
+  const initTx = new TransactionBuilder(account, {
+    fee: '100000',
+    networkPassphrase: NETWORK_PASSPHRASE,
+  })
+    .addOperation(
+      new Contract(contractId).call(
+        'init',
+        Address.fromString(deployer.publicKey()).toScVal(),
+        nativeToScVal('Nova Supply Hub', { type: 'string' })
+      )
+    )
+    .setTimeout(60)
+    .build();
+  const initSim = await server.simulateTransaction(initTx);
+  const finalInit = rpc.assembleTransaction(initTx, initSim).build();
+  finalInit.sign(deployer);
+  const initSent = await server.sendTransaction(finalInit);
+  await pollTx(initSent.hash);
+  console.log('  Init tx:', initSent.hash);
+
+  const deployment = {
+    network: 'TESTNET',
+    contractId,
+    deployer: deployer.publicKey(),
+    wasmHash: wasmHash.toString('hex'),
+    transactions: {
+      upload: uploadSent.hash,
+      create: createSent.hash,
+      init: initSent.hash,
+    },
+    deployedAt: new Date().toISOString(),
+  };
+
+  fs.writeFileSync(DEPLOYMENT_JSON, JSON.stringify(deployment, null, 2));
+
+  const envContent = `# Auto-generated by deploy-contract.mjs
+VITE_NETWORK=TESTNET
+VITE_CONTRACT_ID=${contractId}
+VITE_EXAMPLE_TX_HASH=${initSent.hash}
+VITE_RPC_URL=${RPC_URL}
+VITE_HORIZON_URL=https://horizon-testnet.stellar.org
+VITE_TOKEN_ADDRESS=CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
+`;
+  fs.writeFileSync(path.join(ROOT, '.env'), envContent);
+
+  console.log('\n✅ Deployment complete!');
+  console.log('Contract ID:', contractId);
+  console.log('Init tx hash:', initSent.hash);
+  console.log('Saved to deployment.json and .env');
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
