@@ -218,12 +218,13 @@ substitute for:
 
 1. **10+ real users, proof of wallet interaction**
    - Share the live demo link and ask each tester to connect Freighter (Testnet) and complete at
-     least one action (init hub or purchase a supply item).
+     least one action (init hub or purchase a supply item). Ready-to-send invite message:
+     [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md).
    - Every connect/purchase fires a tracked event (see *Monitoring, Analytics & Feedback* above) —
      after 10 distinct testers, screenshot **Vercel → Analytics → Events** showing
      `wallet_connected` / `purchase_completed` counts ≥ 10.
-   - Optionally also collect each tester's public key (truncated) and resulting tx hash from the
-     Activity tab as a secondary record.
+   - Optionally also log each tester's public key (truncated) and resulting tx hash as a secondary
+     record: [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md).
 
 2. **Basic user feedback summary**
    - Ask each tester to leave a rating + comment via the in-app "💬 Feedback" button before they
