@@ -1139,6 +1139,72 @@ a:hover {
   color: var(--accent);
 }
 
+/* ── Feedback widget ── */
+.feedback-fab {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 120;
+  background: rgba(15, 20, 36, 0.9);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.feedback-fab:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.feedback-rating {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.feedback-star {
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--border);
+  cursor: pointer;
+  padding: 0.1rem;
+}
+
+.feedback-star.active {
+  color: var(--accent);
+}
+
+.feedback-textarea {
+  width: 100%;
+  resize: vertical;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 900px) {
+  .feedback-fab {
+    bottom: calc(72px + env(safe-area-inset-bottom));
+    left: 1rem;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.72rem;
+  }
+}
+
 /* ── Toast ── */
 .toast-container {
   position: fixed;

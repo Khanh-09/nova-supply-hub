@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_RPC_URL: string;
   readonly VITE_HORIZON_URL: string;
   readonly VITE_TOKEN_ADDRESS: string;
+  readonly VITE_FEEDBACK_FORM_ENDPOINT?: string;
 }
 
 interface ImportMeta {

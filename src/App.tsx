@@ -6,6 +6,7 @@ import SupplyPanel from './components/SupplyPanel';
 import EventStream from './components/EventStream';
 import Starfield from './components/Starfield';
 import MobileNav, { type MobileTab } from './components/MobileNav';
+import FeedbackWidget from './components/FeedbackWidget';
 import { useEventStream } from './hooks/useEventStream';
 
 interface ErrorBoundaryState {
@@ -76,9 +77,10 @@ function AppContent() {
       </main>
 
       <MobileNav active={mobileTab} onChange={setMobileTab} eventCount={eventStream.events.length} />
+      <FeedbackWidget />
 
       <footer className="app-footer desktop-only">
-        <p>Nova Supply Hub · Stellar Soroban Testnet · Level 3 Orange Belt</p>
+        <p>Nova Supply Hub · Stellar Soroban Testnet · Level 4 Production MVP</p>
       </footer>
     </div>
   );
