@@ -53,7 +53,7 @@ nova-supply-hub/
 
 ---
 
-## 🛠 Technical Features (Level 3 Checklist)
+## 🛠 Technical Features (Level 4 Checklist)
 
 | # | Requirement | Implementation |
 |---|-------------|----------------|
@@ -63,10 +63,12 @@ nova-supply-hub/
 | 4 | CI/CD pipeline | GitHub Actions: tests, lint, integration check |
 | 5 | Deployment workflow | `deploy-contract.mjs` + **automated CI deploy job** |
 | 6 | Mobile responsive UI | CSS Grid/Flexbox, glassmorphism, `@media` breakpoints |
-| 7 | Error handling | XDR fallback, Friendbot retry, Error Boundary |
-| 8 | Tests | 5 Rust tests + 8 Vitest tests (13 total) |
+| 7 | Loading states & error handling | `TransactionProgress`, `ErrorBoundary`, `Toast`, Friendbot retry, XDR fallback |
+| 8 | Tests | 5 Rust tests + 11 Vitest tests (16 total) |
 | 9 | Production architecture | Separated `contract.ts` / `stellarTx.ts` / hooks |
-| 10 | Documentation | This README + deployment record |
+| 10 | Monitoring & analytics | Vercel Analytics + Speed Insights, custom wallet/purchase events |
+| 11 | User feedback collection | In-app `FeedbackWidget` → Formspree |
+| 12 | Documentation | This README + deployment record |
 
 ---
 
@@ -126,6 +128,33 @@ npm run dev
 npm test
 ```
 
+### 7. (Optional) Configure feedback collection
+
+Create a free form at [Formspree](https://formspree.io), copy its endpoint URL, and set it in
+`.env` (and in your Vercel project's environment variables):
+
+```
+VITE_FEEDBACK_FORM_ENDPOINT=https://formspree.io/f/xxxxabcd
+```
+
+Without this variable the in-app Feedback button still works, but submissions show a
+"not configured" error instead of reaching Formspree.
+
+---
+
+## 📊 Monitoring, Analytics & Feedback
+
+- **Vercel Analytics + Speed Insights** (`src/main.tsx`) are wired in automatically once deployed
+  on Vercel — enable them under **Project → Analytics** / **Project → Speed Insights** in the
+  Vercel dashboard (no extra code needed beyond what's already committed).
+- **Custom events** are tracked at the moments users actually interact with a wallet or contract:
+  `wallet_connected`, `wallet_connect_failed`, `hub_initialized`, `hub_init_failed`,
+  `purchase_completed`, `purchase_failed`, and `feedback_submitted` (see `src/hooks/useWallet.ts`,
+  `src/hooks/useContract.ts`, `src/components/FeedbackWidget.tsx`). These show up under
+  **Vercel → Analytics → Events** and are the source of truth for "proof of wallet interactions."
+- **Feedback** is collected via the floating "💬 Feedback" button (star rating + comment), which
+  posts to your Formspree endpoint; responses land in the Formspree dashboard.
+
 ---
 
 ## 🧪 Test Output
@@ -143,13 +172,14 @@ test test::test_purchase_before_init_panics - should panic ... ok
 test result: ok. 5 passed; 0 failed; 0 ignored
 ```
 
-### Frontend tests (Vitest)
+### Frontend tests (Vitest, 11 passing)
 
 ```powershell
 npm test
 ```
 
-Covers `contract.ts` function mapping, contract ID validation, catalog data, and Connect Wallet UI rendering.
+Covers `contract.ts` function mapping, contract ID validation, catalog data, Connect Wallet UI
+rendering, and the Feedback widget (rating validation, unconfigured-endpoint handling).
 
 ---
 
@@ -165,18 +195,46 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 
 ---
 
-## ✅ Submission Checklist
+## ✅ Level 4 Submission Checklist
 
 - [x] Public GitHub repository
 - [x] README with complete documentation
-- [x] Minimum 10+ meaningful commits
-- [x] Live demo link (Vercel / Netlify)
+- [x] Minimum 15+ meaningful commits
+- [x] Live demo link (Vercel)
 - [x] **Contract deployment address** (in README + `deployment.json`)
-- [x] **Transaction hash** for contract interaction (in `deployment.json`)
-- [x] Screenshot: mobile responsive UI
-- [x] Screenshot: CI/CD pipeline running
-- [x] Test output with 3+ passing tests (13 passing: 5 Rust + 8 Vitest)
-- [ ] Demo video link (1–2 minutes) — **still needed**, see note below
+- [x] Screenshot: product UI
+- [x] Screenshot: mobile responsive design
+- [ ] Screenshot: analytics/monitoring setup — **do this after enabling Analytics in Vercel** (see below)
+- [ ] Proof of 10+ user wallet interactions — **needs real testers**, see below
+- [ ] Basic user feedback summary — **needs real testers**, see below
+- [ ] Demo video link (1–2 minutes) — **still needed**
+
+### What's code-complete vs. what needs you
+
+Everything in the table above through item 12 is implemented and verified in this repo (tests
+pass, build passes, lint passes). Three checklist items are **operational, not technical** — they
+require actually running the onboarding process with real people, which no amount of code can
+substitute for:
+
+1. **10+ real users, proof of wallet interaction**
+   - Share the live demo link and ask each tester to connect Freighter (Testnet) and complete at
+     least one action (init hub or purchase a supply item).
+   - Every connect/purchase fires a tracked event (see *Monitoring, Analytics & Feedback* above) —
+     after 10 distinct testers, screenshot **Vercel → Analytics → Events** showing
+     `wallet_connected` / `purchase_completed` counts ≥ 10.
+   - Optionally also collect each tester's public key (truncated) and resulting tx hash from the
+     Activity tab as a secondary record.
+
+2. **Basic user feedback summary**
+   - Ask each tester to leave a rating + comment via the in-app "💬 Feedback" button before they
+     leave.
+   - Once you have responses, screenshot the Formspree submissions dashboard, or write a short
+     summary (average rating, common comments) into this README.
+
+3. **Demo video (1–2 minutes)**
+   - Record: connecting Freighter → funding via Friendbot → initializing the hub → purchasing a
+     supply item → viewing the event in the Activity tab. Upload to YouTube/Loom (unlisted is
+     fine) and link it here.
 
 ---
 
@@ -184,7 +242,7 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 
 Below are the submission screenshots included in `docs/screenshots/`:
 
-### Mobile responsive UI
+### Product UI (mobile)
 ![Mobile responsive UI](docs/screenshots/mobile-ui.png)
 
 ### GitHub Actions CI/CD pipeline
@@ -195,10 +253,12 @@ Below are the submission screenshots included in `docs/screenshots/`:
 > from the [Actions tab](https://github.com/Khanh-09/nova-supply-hub/actions) once a fresh push
 > shows all-green so it reflects the current pipeline state.
 
-**Still outstanding for submission:**
-1. A 1–2 minute demo video (screen recording of connecting Freighter, running `npm test` /
-   `cargo test`, and completing a purchase on the live demo) — link it here once recorded.
-2. An up-to-date, all-green CI/CD screenshot (see note above).
+**Still outstanding for submission** (see *What's code-complete vs. what needs you* above):
+1. Analytics/monitoring dashboard screenshot (after enabling Vercel Analytics).
+2. Proof-of-10-users screenshot (Vercel Analytics events, once real testers have connected).
+3. Feedback summary (Formspree dashboard screenshot or written summary).
+4. A 1–2 minute demo video.
+5. An up-to-date, all-green CI/CD screenshot (see note above).
 
 ---
 
