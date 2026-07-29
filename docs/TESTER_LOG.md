@@ -1,14 +1,30 @@
 # Nhật ký 10+ người dùng thật (bằng chứng bổ sung)
 
-Bằng chứng chính là **Vercel Analytics → Events** (đếm số `wallet_connected` / `purchase_completed`
-≥ 10). Bảng dưới đây là bằng chứng phụ, không bắt buộc nhưng giúp phần review dễ tin cậy hơn —
-điền sau khi mỗi tester làm theo hướng dẫn ở [`TESTER_OUTREACH.md`](./TESTER_OUTREACH.md).
+> **Vercel Web Analytics gói Hobby (miễn phí) không hỗ trợ Custom Events**, nên không thể dùng để
+> đếm `wallet_connected` / `purchase_completed`. Bằng chứng chính thức dùng ở đây là
+> **on-chain, công khai, miễn phí** — mạnh hơn cả analytics vì ai cũng verify được độc lập.
 
-Cách lấy `Tx hash` / `Địa chỉ ví (rút gọn)`: sau khi tester bấm "Confirm & Pay", tab **Activity**
-trong app hiện transaction vừa xảy ra — bảo tester chụp màn hình hoặc copy hash gửi lại cho bạn.
+## Bằng chứng chính: Stellar Expert (on-chain, 1 screenshot là đủ)
 
-| # | Tên/Nickname tester | Địa chỉ ví (rút gọn, vd: GBOR…G2AF) | Hành động | Tx hash (rút gọn) | Ngày |
-|---|----------------------|--------------------------------------|-----------|-------------------|------|
+Mọi giao dịch `init`/`purchase` mà tester thực hiện đều là 1 transaction thật trên Stellar
+testnet, tự động xuất hiện công khai tại trang của contract:
+
+**https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT**
+
+Sau khi đủ 10 tester khác nhau đã tương tác, vào link trên → tab giao dịch (Operations/Invocations)
+→ chụp màn hình danh sách các source account khác nhau đã gọi contract. Đây là bằng chứng độc lập,
+không ai giả được vì nó nằm trên blockchain công khai.
+
+App cũng tự hiện link "View on Stellar Expert →" cho từng giao dịch ngay trong tab **Activity**
+(xem `src/components/EventStream.tsx`), nên tester có thể tự chụp/copy link giao dịch của họ luôn.
+
+## Bảng ghi log chi tiết (không bắt buộc, chỉ để dễ đối chiếu)
+
+Điền sau khi mỗi tester làm theo hướng dẫn ở [`TESTER_OUTREACH.md`](./TESTER_OUTREACH.md). Cột
+"Link Stellar Expert" lấy từ tab Activity trong app hoặc từ trang contract ở trên.
+
+| # | Tên/Nickname tester | Địa chỉ ví (rút gọn, vd: GBOR…G2AF) | Hành động | Link Stellar Expert | Ngày |
+|---|----------------------|--------------------------------------|-----------|----------------------|------|
 | 1 | | | | | |
 | 2 | | | | | |
 | 3 | | | | | |

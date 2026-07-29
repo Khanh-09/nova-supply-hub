@@ -146,12 +146,20 @@ Without this variable the in-app Feedback button still works, but submissions sh
 
 - **Vercel Analytics + Speed Insights** (`src/main.tsx`) are wired in automatically once deployed
   on Vercel — enable them under **Project → Analytics** / **Project → Speed Insights** in the
-  Vercel dashboard (no extra code needed beyond what's already committed).
-- **Custom events** are tracked at the moments users actually interact with a wallet or contract:
-  `wallet_connected`, `wallet_connect_failed`, `hub_initialized`, `hub_init_failed`,
-  `purchase_completed`, `purchase_failed`, and `feedback_submitted` (see `src/hooks/useWallet.ts`,
-  `src/hooks/useContract.ts`, `src/components/FeedbackWidget.tsx`). These show up under
-  **Vercel → Analytics → Events** and are the source of truth for "proof of wallet interactions."
+  Vercel dashboard (no extra code needed beyond what's already committed). This satisfies the
+  "monitoring/analytics integration" requirement with real page-view and performance data.
+- **Custom events** (`wallet_connected`, `hub_initialized`, `purchase_completed`, etc. — see
+  `src/hooks/useWallet.ts`, `src/hooks/useContract.ts`) are tracked in code, but **Vercel's free
+  Hobby plan does not support Custom Events** (Pro-only, $20/mo). Rather than pay for that, proof
+  of wallet interactions uses on-chain data instead — see below.
+- **Proof of wallet interactions (on-chain, free, publicly verifiable):** every `init`/`purchase`
+  is a real signed Stellar testnet transaction. The contract's full transaction history is public
+  at
+  `https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT` —
+  a single screenshot of that page after 10+ distinct testers have interacted is stronger proof
+  than self-reported analytics, since anyone can independently verify it. The app's Activity tab
+  also links out to Stellar Expert for each individual transaction (`EventStream.tsx`). See
+  [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md).
 - **Feedback** is collected via the floating "💬 Feedback" button (star rating + comment), which
   posts to your Formspree endpoint; responses land in the Formspree dashboard.
 
@@ -204,8 +212,8 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 - [x] **Contract deployment address** (in README + `deployment.json`)
 - [x] Screenshot: product UI
 - [x] Screenshot: mobile responsive design
-- [ ] Screenshot: analytics/monitoring setup — **do this after enabling Analytics in Vercel** (see below)
-- [ ] Proof of 10+ user wallet interactions — **needs real testers**, see below
+- [ ] Screenshot: analytics/monitoring setup — **enable Web Analytics (Hobby/free) in Vercel**, then screenshot
+- [ ] Proof of 10+ user wallet interactions — **needs real testers**, then screenshot the contract on [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT)
 - [ ] Basic user feedback summary — **needs real testers**, see below
 - [ ] Demo video link (1–2 minutes) — **still needed**
 
@@ -220,11 +228,9 @@ substitute for:
    - Share the live demo link and ask each tester to connect Freighter (Testnet) and complete at
      least one action (init hub or purchase a supply item). Ready-to-send invite message:
      [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md).
-   - Every connect/purchase fires a tracked event (see *Monitoring, Analytics & Feedback* above) —
-     after 10 distinct testers, screenshot **Vercel → Analytics → Events** showing
-     `wallet_connected` / `purchase_completed` counts ≥ 10.
-   - Optionally also log each tester's public key (truncated) and resulting tx hash as a secondary
-     record: [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md).
+   - Once 10+ distinct testers have interacted, screenshot the contract's public transaction
+     history on Stellar Expert as proof (see *Monitoring, Analytics & Feedback* above and
+     [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md)).
 
 2. **Basic user feedback summary**
    - Ask each tester to leave a rating + comment via the in-app "💬 Feedback" button before they
