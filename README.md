@@ -64,7 +64,7 @@ nova-supply-hub/
 | 5 | Deployment workflow | `deploy-contract.mjs` + **automated CI deploy job** |
 | 6 | Mobile responsive UI | CSS Grid/Flexbox, glassmorphism, `@media` breakpoints |
 | 7 | Error handling | XDR fallback, Friendbot retry, Error Boundary |
-| 8 | Tests | 5 Rust tests + 7+ Vitest tests |
+| 8 | Tests | 5 Rust tests + 8 Vitest tests (13 total) |
 | 9 | Production architecture | Separated `contract.ts` / `stellarTx.ts` / hooks |
 | 10 | Documentation | This README + deployment record |
 
@@ -175,8 +175,8 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 - [x] **Transaction hash** for contract interaction (in `deployment.json`)
 - [x] Screenshot: mobile responsive UI
 - [x] Screenshot: CI/CD pipeline running
-- [x] Test output with 3+ passing tests
-- [ ] Demo video link (1–2 minutes)
+- [x] Test output with 3+ passing tests (13 passing: 5 Rust + 8 Vitest)
+- [ ] Demo video link (1–2 minutes) — **still needed**, see note below
 
 ---
 
@@ -189,6 +189,16 @@ Below are the submission screenshots included in `docs/screenshots/`:
 
 ### GitHub Actions CI/CD pipeline
 ![CI/CD pipeline](docs/screenshots/ci-pipeline.png)
+
+> **Note:** the CI/CD screenshot above is from an earlier run and includes two failed checks
+> from before the Soroban test-target fixes (see commit history). Re-capture this screenshot
+> from the [Actions tab](https://github.com/Khanh-09/nova-supply-hub/actions) once a fresh push
+> shows all-green so it reflects the current pipeline state.
+
+**Still outstanding for submission:**
+1. A 1–2 minute demo video (screen recording of connecting Freighter, running `npm test` /
+   `cargo test`, and completing a purchase on the live demo) — link it here once recorded.
+2. An up-to-date, all-green CI/CD screenshot (see note above).
 
 ---
 
