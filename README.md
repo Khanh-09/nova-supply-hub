@@ -210,9 +210,9 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 - [x] Minimum 15+ meaningful commits
 - [x] Live demo link (Vercel)
 - [x] **Contract deployment address** (in README + `deployment.json`)
-- [x] Screenshot: product UI
+- [x] Screenshot: product UI (desktop + mobile)
 - [x] Screenshot: mobile responsive design
-- [ ] Screenshot: analytics/monitoring setup — **enable Web Analytics (Hobby/free) in Vercel**, then screenshot
+- [x] Screenshot: analytics/monitoring setup — Vercel Web Analytics, 12 visitors / 33 page views
 - [x] **Proof of 10+ user wallet interactions** — verified on-chain, see below
 - [x] Basic user feedback summary — 10 responses collected, see below
 - [ ] Demo video link (1–2 minutes) — **still needed**
@@ -233,14 +233,14 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
      (ratings: mostly 4s and 5s). Common themes: clean/appealing UI, clear onboarding flow, overall
      positive first-time experience with the purchase flow.
 
-3. **Demo video (1–2 minutes) — still outstanding**
+3. **Analytics/monitoring screenshot — ✅ done**
+   - Vercel Web Analytics (Hobby, free) enabled — 12 visitors, 33 page views over the testing
+     period (see `docs/screenshots/analytics-dashboard.png`).
+
+4. **Demo video (1–2 minutes) — still outstanding**
    - Record: connecting Freighter → funding via Friendbot → initializing the hub → purchasing a
      supply item → viewing the event in the Activity tab. Upload to YouTube/Loom (unlisted is
      fine) and link it here.
-
-4. **Analytics/monitoring screenshot — still outstanding**
-   - Enable Web Analytics (Hobby, free) in the Vercel dashboard if not already, then screenshot the
-     Visitors/Page Views panel once it shows non-zero data.
 
 ---
 
@@ -248,8 +248,14 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 
 Below are the submission screenshots included in `docs/screenshots/`:
 
+### Product UI (desktop)
+![Product UI desktop](docs/screenshots/product-ui-desktop.png)
+
 ### Product UI (mobile)
 ![Mobile responsive UI](docs/screenshots/mobile-ui.png)
+
+### Analytics / monitoring (Vercel Web Analytics)
+![Analytics dashboard](docs/screenshots/analytics-dashboard.png)
 
 ### GitHub Actions CI/CD pipeline
 ![CI/CD pipeline](docs/screenshots/ci-pipeline.png)
@@ -259,12 +265,9 @@ Below are the submission screenshots included in `docs/screenshots/`:
 > from the [Actions tab](https://github.com/Khanh-09/nova-supply-hub/actions) once a fresh push
 > shows all-green so it reflects the current pipeline state.
 
-**Still outstanding for submission** (see *What's code-complete vs. what needs you* above):
-1. Analytics/monitoring dashboard screenshot (after enabling Vercel Analytics).
-2. Proof-of-10-users screenshot (Vercel Analytics events, once real testers have connected).
-3. Feedback summary (Formspree dashboard screenshot or written summary).
-4. A 1–2 minute demo video.
-5. An up-to-date, all-green CI/CD screenshot (see note above).
+**Still outstanding for submission:**
+1. A 1–2 minute demo video.
+2. An up-to-date, all-green CI/CD screenshot (see note above).
 
 ---
 
