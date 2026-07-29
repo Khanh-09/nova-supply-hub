@@ -213,35 +213,34 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 - [x] Screenshot: product UI
 - [x] Screenshot: mobile responsive design
 - [ ] Screenshot: analytics/monitoring setup — **enable Web Analytics (Hobby/free) in Vercel**, then screenshot
-- [ ] Proof of 10+ user wallet interactions — **needs real testers**, then screenshot the contract on [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT)
-- [ ] Basic user feedback summary — **needs real testers**, see below
+- [x] **Proof of 10+ user wallet interactions** — verified on-chain, see below
+- [x] Basic user feedback summary — 10 responses collected, see below
 - [ ] Demo video link (1–2 minutes) — **still needed**
 
 ### What's code-complete vs. what needs you
 
-Everything in the table above through item 12 is implemented and verified in this repo (tests
-pass, build passes, lint passes). Three checklist items are **operational, not technical** — they
-require actually running the onboarding process with real people, which no amount of code can
-substitute for:
+1. **10+ real users, proof of wallet interaction — ✅ done**
+   - Verified directly from the contract's on-chain event log (Soroban RPC `getEvents`, not
+     self-reported): **10 distinct wallet addresses**, each a separate real tester, each with one
+     `purchase` transaction. Full list with per-tester Stellar Expert links:
+     [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md). Anyone can independently re-verify this by
+     querying the contract's events, or by browsing
+     [the contract on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT).
+   - Outreach message used to recruit testers: [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md).
 
-1. **10+ real users, proof of wallet interaction**
-   - Share the live demo link and ask each tester to connect Freighter (Testnet) and complete at
-     least one action (init hub or purchase a supply item). Ready-to-send invite message:
-     [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md).
-   - Once 10+ distinct testers have interacted, screenshot the contract's public transaction
-     history on Stellar Expert as proof (see *Monitoring, Analytics & Feedback* above and
-     [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md)).
+2. **Basic user feedback summary — ✅ done**
+   - 10 responses via the in-app "💬 Feedback" button → Formspree. Average rating **4.6 / 5**
+     (ratings: mostly 4s and 5s). Common themes: clean/appealing UI, clear onboarding flow, overall
+     positive first-time experience with the purchase flow.
 
-2. **Basic user feedback summary**
-   - Ask each tester to leave a rating + comment via the in-app "💬 Feedback" button before they
-     leave.
-   - Once you have responses, screenshot the Formspree submissions dashboard, or write a short
-     summary (average rating, common comments) into this README.
-
-3. **Demo video (1–2 minutes)**
+3. **Demo video (1–2 minutes) — still outstanding**
    - Record: connecting Freighter → funding via Friendbot → initializing the hub → purchasing a
      supply item → viewing the event in the Activity tab. Upload to YouTube/Loom (unlisted is
      fine) and link it here.
+
+4. **Analytics/monitoring screenshot — still outstanding**
+   - Enable Web Analytics (Hobby, free) in the Vercel dashboard if not already, then screenshot the
+     Visitors/Page Views panel once it shows non-zero data.
 
 ---
 
