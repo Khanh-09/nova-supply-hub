@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { track } from '@vercel/analytics';
 import {
   isConnected,
   isAllowed,
@@ -103,10 +104,12 @@ export function useWallet() {
       }
 
       setPublicKey(address);
+      track('wallet_connected', { publicKeyPrefix: address.slice(0, 8) });
       return address;
     } catch (err) {
       const msg = (err as Error)?.message || 'Failed to connect wallet';
       setError(msg);
+      track('wallet_connect_failed', { reason: msg.slice(0, 80) });
       throw err;
     } finally {
       setConnecting(false);

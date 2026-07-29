@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { track } from '@vercel/analytics';
 import {
   initSupplyHub,
   purchaseSupply,
@@ -50,11 +51,13 @@ export function useContract(publicKey: string | null, signTransaction: SignTrans
         { onPhase: setPhase }
       );
       setLastTxHash(result.hash);
+      track('hub_initialized', { txHash: result.hash.slice(0, 12) });
       await refreshStats();
       return result;
     } catch (err) {
       const { message } = formatStellarError(err);
       setError(message);
+      track('hub_init_failed', { reason: message.slice(0, 80) });
       throw err;
     } finally {
       setLoading(false);
@@ -79,11 +82,13 @@ export function useContract(publicKey: string | null, signTransaction: SignTrans
           { onPhase: setPhase }
         );
         setLastTxHash(result.hash);
+        track('purchase_completed', { shipmentId, amount, txHash: result.hash.slice(0, 12) });
         await refreshStats();
         return result;
       } catch (err) {
         const { message } = formatStellarError(err);
         setError(message);
+        track('purchase_failed', { shipmentId, reason: message.slice(0, 80) });
         throw err;
       } finally {
         setLoading(false);
