@@ -265,14 +265,11 @@ Below are the submission screenshots included in `docs/screenshots/`:
 ### GitHub Actions CI/CD pipeline
 ![CI/CD pipeline](docs/screenshots/ci-pipeline.png)
 
-> **Note:** the CI/CD screenshot above is from an earlier run and includes two failed checks
-> from before the Soroban test-target fixes (see commit history). Re-capture this screenshot
-> from the [Actions tab](https://github.com/Khanh-09/nova-supply-hub/actions) once a fresh push
-> shows all-green so it reflects the current pipeline state.
+All 6 jobs passing — contract tests, frontend tests/build, integration check, lint, automated
+testnet contract deploy, and automated frontend deploy to Vercel.
 
 **Still outstanding for submission:**
 1. A 1–2 minute demo video.
-2. An up-to-date, all-green CI/CD screenshot (see note above).
 
 ---
 
