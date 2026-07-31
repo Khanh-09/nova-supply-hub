@@ -198,8 +198,13 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 1. **contract-tests** — `cargo test` + WASM build
 2. **frontend-tests** — Vitest + production build
 3. **integration-check** — `verify-integration.mjs` (Rust ↔ frontend matching)
-4. **deploy-testnet** — **Automated** deploy on push to `main`/`master`
+4. **deploy-testnet** — **Automated** contract deploy on push to `main`/`master`
 5. **lint** — ESLint
+6. **deploy-frontend** — **Automated** frontend deploy to Vercel (`vercel build` + `vercel deploy --prod`) on push to `main`/`master`
+
+`deploy-frontend` needs three repo secrets (**Settings → Secrets and variables → Actions**):
+`VERCEL_TOKEN` (Vercel account → Settings → Tokens), and `VERCEL_ORG_ID` / `VERCEL_PROJECT_ID`
+(run `vercel link` locally once, then read both from the generated `.vercel/project.json`).
 
 ---
 
