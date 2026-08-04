@@ -152,6 +152,20 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          # Public contract addresses, not secrets. One or more of these were
+          # marked "Sensitive" in the Vercel dashboard at some point, which made
+          # `vercel pull` write the literal placeholder string "[SENSITIVE]"
+          # instead of the real value -- new URL("[SENSITIVE]") then threw at
+          # module load, before React ever rendered (blank page, no console
+          # error boundary could catch it). Setting them explicitly here
+          # overrides that placeholder (Vite gives already-set process.env
+          # vars precedence over .env file values).
+          VITE_NETWORK: TESTNET
+          VITE_CONTRACT_ID: CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT
+          VITE_EXAMPLE_TX_HASH: bc25446015cbd314d8c3adfdab751f15782676542bbf8a62385116d778ce3d89
+          VITE_RPC_URL: https://soroban-testnet.stellar.org
+          VITE_HORIZON_URL: https://horizon-testnet.stellar.org
+          VITE_TOKEN_ADDRESS: CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
 
       - name: Deploy to Vercel (production)
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
