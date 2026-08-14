@@ -275,7 +275,9 @@ that motivated it and link the commit that shipped the fix._
 
 ### Pitch deck & demo video
 
-- **Pitch deck**: _link here once created_
+- **Pitch deck**: https://claude.ai/code/artifact/9457042f-86e2-4c1c-a6aa-f88f038521b9 — Problem, Solution,
+  Architecture, Market Opportunity, Growth Strategy, Roadmap, and a Proof slide sourced entirely from
+  on-chain/repo data (shipment count, treasury balance, test count, commit count)
 - **Demo video**: _link here once recorded_
 
 ---
