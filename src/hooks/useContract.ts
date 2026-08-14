@@ -5,6 +5,7 @@ import {
   purchaseSupply,
   getContractBalance,
   getShipmentCount,
+  isHubInitialized,
   type TxPhase,
   type TxResult,
 } from '../lib/stellarTx';
@@ -15,6 +16,7 @@ import type { SignTransactionFn } from '../lib/stellarTx';
 export function useContract(publicKey: string | null, signTransaction: SignTransactionFn) {
   const [balance, setBalance] = useState(0);
   const [shipmentCount, setShipmentCount] = useState(0);
+  const [hubInitialized, setHubInitialized] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
   const [phase, setPhase] = useState<TxPhase | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -23,9 +25,14 @@ export function useContract(publicKey: string | null, signTransaction: SignTrans
   const refreshStats = useCallback(async () => {
     if (!isValidContractId(CONTRACT_ID)) return;
     try {
-      const [bal, count] = await Promise.all([getContractBalance(), getShipmentCount()]);
+      const [bal, count, initialized] = await Promise.all([
+        getContractBalance(),
+        getShipmentCount(),
+        isHubInitialized(),
+      ]);
       setBalance(bal);
       setShipmentCount(count);
+      setHubInitialized(initialized);
     } catch (err) {
       console.warn('Stats refresh failed:', (err as Error).message);
     }
@@ -101,6 +108,7 @@ export function useContract(publicKey: string | null, signTransaction: SignTrans
   return {
     balance,
     shipmentCount,
+    hubInitialized,
     loading,
     phase,
     error,

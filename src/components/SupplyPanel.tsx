@@ -21,6 +21,7 @@ export default function SupplyPanel() {
   const {
     balance,
     shipmentCount,
+    hubInitialized,
     loading,
     phase,
     error,
@@ -103,6 +104,7 @@ export default function SupplyPanel() {
           <QuickActions
             publicKey={publicKey!}
             loading={loading}
+            hubInitialized={hubInitialized}
             onInit={initHub}
             onRefresh={handleRefreshStats}
           />

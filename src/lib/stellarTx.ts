@@ -278,6 +278,22 @@ export async function getShipmentCount(): Promise<number> {
   return 0;
 }
 
+/**
+ * Whether the hub has already been initialized — maps to get_owner, which
+ * panics with NotInitialized until someone calls init(). This is a single
+ * shared contract instance, so after the first init() every other user's
+ * "Init Hub" attempt would fail with the same error; callers use this to
+ * hide that action instead of exposing a button guaranteed to error out.
+ */
+export async function isHubInitialized(): Promise<boolean> {
+  try {
+    const sim = await simulateContractCall(CONTRACT_FUNCTIONS.GET_OWNER, []);
+    return !!sim.result?.retval;
+  } catch {
+    return false;
+  }
+}
+
 /** Stream contract events via Soroban RPC getEvents polling */
 export async function fetchContractEvents(startLedger: number | null = null): Promise<ContractEvent[]> {
   let latest;

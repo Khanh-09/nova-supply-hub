@@ -8,11 +8,18 @@ import { useAccountStatus } from '../hooks/useAccountStatus';
 interface QuickActionsProps {
   publicKey: string;
   loading: boolean;
+  hubInitialized: boolean | null;
   onInit: () => Promise<unknown>;
   onRefresh: () => void;
 }
 
-export default function QuickActions({ publicKey, loading, onInit, onRefresh }: QuickActionsProps) {
+export default function QuickActions({
+  publicKey,
+  loading,
+  hubInitialized,
+  onInit,
+  onRefresh,
+}: QuickActionsProps) {
   const { showToast } = useToast();
   const { funded, checking, refresh } = useAccountStatus(publicKey);
   const [funding, setFunding] = useState(false);
@@ -85,11 +92,25 @@ export default function QuickActions({ publicKey, loading, onInit, onRefresh }: 
           </span>
           <span className="action-desc">Free testnet XLM via Friendbot</span>
         </button>
-        <button type="button" className="action-tile" onClick={handleInit} disabled={loading}>
-          <span className="action-icon">🚀</span>
-          <span className="action-title">Init Hub</span>
-          <span className="action-desc">One-time contract setup</span>
-        </button>
+        {hubInitialized === false ? (
+          <button type="button" className="action-tile" onClick={handleInit} disabled={loading}>
+            <span className="action-icon">🚀</span>
+            <span className="action-title">Init Hub</span>
+            <span className="action-desc">One-time contract setup</span>
+          </button>
+        ) : (
+          <div className="action-tile action-tile-done" aria-disabled="true">
+            <span className="action-icon">{hubInitialized === null ? '⏳' : '✅'}</span>
+            <span className="action-title">
+              {hubInitialized === null ? 'Checking hub…' : 'Hub is live'}
+            </span>
+            <span className="action-desc">
+              {hubInitialized === null
+                ? 'Reading contract state'
+                : 'Already initialized — go straight to ordering'}
+            </span>
+          </div>
+        )}
         <a className="action-tile" href={friendbotUrl(publicKey)} target="_blank" rel="noreferrer">
           <span className="action-icon">🤖</span>
           <span className="action-title">Friendbot</span>

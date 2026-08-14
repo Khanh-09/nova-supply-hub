@@ -619,6 +619,16 @@ a:hover {
   cursor: not-allowed;
 }
 
+.action-tile-done {
+  cursor: default;
+  border-color: rgba(94, 234, 212, 0.25);
+  background: rgba(94, 234, 212, 0.04);
+}
+
+.action-tile-done:hover {
+  transform: none;
+}
+
 .action-icon {
   font-size: 1.25rem;
 }
