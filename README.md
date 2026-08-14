@@ -249,6 +249,37 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 
 ---
 
+## 🚀 Level 5 — Growth & Iteration
+
+### User onboarding (50+ users)
+
+- **Google Form**: https://docs.google.com/forms/d/e/1FAIpQLSdQa8_My4KF0TLN0ILD3tO6xxiKZ-2wzeV_a8ny2prg-bqNeA/viewform
+  — collects name, wallet address, email, transaction hash, a 1–5 rating, and written feedback.
+  Sent alongside the wallet-connect flow in [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md).
+- **Exported responses (Excel)**: _link/attach here once 50+ responses are collected_ — from the
+  Form's Responses tab, create the linked Google Sheet, then File → Download → Microsoft Excel
+  (.xlsx), and commit it under `docs/user-feedback-export.xlsx` or link the Sheet directly.
+- **On-chain proof**: same method as Level 4 — the contract's full transaction history is public
+  at [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT),
+  independently verifiable, and cross-checked against Form responses in
+  [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md).
+
+### Product improvements made from user feedback
+
+| Feedback / observation | Change shipped | Commit |
+|---|---|---|
+| 9 of the first 10 people invited connected a wallet only *after* being told it was separate from feedback — the "Init Hub" action offered to every new user was actually guaranteed to fail, since the contract is a single shared instance that can only be initialized once | Hide the "Init Hub" button once the hub is already initialized; show a "✅ Hub is live" status instead, so new users only ever see actionable steps | [`66e567e`](https://github.com/Khanh-09/nova-supply-hub/commit/66e567e) |
+
+_This table grows as more Form feedback comes in — each new row should cite the specific response
+that motivated it and link the commit that shipped the fix._
+
+### Pitch deck & demo video
+
+- **Pitch deck**: _link here once created_
+- **Demo video**: _link here once recorded_
+
+---
+
 ## 📸 Screenshots
 
 Below are the submission screenshots included in `docs/screenshots/`:
