@@ -48,7 +48,7 @@ nova-supply-hub/
 ├── scripts/
 │   ├── deploy-contract.mjs             # WASM → upload → create → init
 │   ├── verify-integration.mjs          # CI cross-check Rust ↔ frontend
-│   └── generate_test_transactions.mjs  # Automated load/integration test only —
+│ —
 │                                       # NOT real users, see docs/AUTOMATED_LOAD_TEST.md
 └── .github/workflows/ci.yml       # Tests + automated deploy
 ```
@@ -295,7 +295,8 @@ that motivated it and link the commit that shipped the fix._
 
 - **Pitch deck**: https://claude.ai/code/artifact/9457042f-86e2-4c1c-a6aa-f88f038521b9 — Problem, Solution,
   Architecture, Market Opportunity, Growth Strategy, Roadmap, and a Proof slide sourced entirely from
-  on-chain/repo data (shipment count, treasury balance, test count, commit count)
+  on-chain/repo data (shipment count, treasury balance, test count, commit count). Also version-controlled
+  in-repo at [`docs/pitch-deck.html`](docs/pitch-deck.html) — open it directly in a browser.
 - **Demo video**: _link here once recorded_
 
 ---
