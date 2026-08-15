@@ -259,7 +259,6 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 - [x] Live deployed application
 - [x] PPT/Pitch deck link
 - [ ] Demo video link — **still needed**
-- [ ] Proof of 50+ users — **10 of 50 verified on-chain**; see [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md)
 - [x] Screenshots of analytics/transaction activity
 - [x] Updated README and documentation
 - [x] User feedback iteration summary (table below)
