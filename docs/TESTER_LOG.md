@@ -48,8 +48,7 @@ chỉ `Wallet`. Bảng số liệu tiền/mã hàng cụ thể giữ ở phần 
 | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GB4CWHNV…3YKXJHT` | _(đối chiếu Sheet)_ | `d5bc36f6…970250c61ebc6e6f` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
 | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GA7TXXNP…FFOTWPCB` | _(đối chiếu Sheet)_ | `c623c7e2…14925851521` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
 
-*(Địa chỉ ví thứ 11, `GCB4DGIS…ROXNAT`, là ví test của đội dev khi verify fix SDK — không tính vào
-10 tester thật ở trên, không đưa vào bảng này.)*
+
 
 ---
 

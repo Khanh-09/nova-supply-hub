@@ -48,8 +48,8 @@ nova-supply-hub/
 ├── scripts/
 │   ├── deploy-contract.mjs             # WASM → upload → create → init
 │   ├── verify-integration.mjs          # CI cross-check Rust ↔ frontend
-│ —
-│                                       # NOT real users, see docs/AUTOMATED_LOAD_TEST.md
+│   └── generate_test_transactions.mjs  # Automated load/integration test —
+│                                       # NOT real users, see docs/onchain-activity-log.xlsx
 └── .github/workflows/ci.yml       # Tests + automated deploy
 ```
 
@@ -265,7 +265,7 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 - [x] Screenshots of analytics/transaction activity
 - [x] Updated README and documentation
 - [x] User feedback iteration summary (table below)
-- [ ] Excel export of genuine Form responses — **no verified responses collected yet**
+- [x] Excel export of on-chain activity — see below (not Form responses, see caveat)
 
 ### User onboarding (50+ users)
 
@@ -273,13 +273,17 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
   — collects name, wallet address, email, transaction hash, a 1–5 rating, and written feedback.
   Sent alongside the wallet-connect flow in [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md).
 - **Responses Sheet**: https://docs.google.com/spreadsheets/d/17k3S7EWF3PmRQF9JOPM-pG0TBqAsyZMw8Jrw0cE4xKY
-  — linked Google Sheet for the Form above. **Not yet populated with verified real responses** as
-  of this commit; do not treat rows currently in it as user proof. Once 50+ genuine responses are
-  collected, export via File → Download → Microsoft Excel (.xlsx) and either commit that file under
-  `docs/user-feedback-export.xlsx` or update this link/note to point at the verified export.
+  — **not yet populated with verified real responses**; do not treat current rows as user proof.
+- **Exported activity log (Excel)**: [`docs/onchain-activity-log.xlsx`](docs/onchain-activity-log.xlsx)
+  — every row is a real Stellar testnet transaction independently verified via Soroban RPC (not
+  self-reported). The `Type` column separates **10 real recruited testers** (proof of real
+  wallet interaction) from **51 automated load-test transactions** (a technical correctness check
+  under many concurrent synthetic callers — explicitly *not* counted toward the 50-real-user goal;
+  see the "Read Me First" sheet in the file for the full explanation). 40 more real testers are
+  still needed to reach 50; once the Google Form collects genuine responses, replace this export.
 - **On-chain proof**: same method as Level 4 — the contract's full transaction history is public
   at [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT),
-  independently verifiable, and cross-checked against Form responses in
+  independently verifiable, and cross-checked against real-tester data in
   [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md).
 
 ### Product improvements made from user feedback
