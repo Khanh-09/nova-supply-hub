@@ -14,7 +14,7 @@ Unlike a generic demo, this project ships a full stack: Rust smart contract, Typ
 | Field | Value |
 |-------|-------|
 | **Contract ID** | `CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT` |
-| **Network** | Stellar Testnet (Protocol 22) |
+| **Network** | Stellar Testnet (Protocol 27) |
 | **Payment Token** | Native XLM via SAC |
 | **Token Contract** | `CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC` |
 | **Live Demo** | https://nova-supply-hub.vercel.app |
@@ -46,8 +46,10 @@ nova-supply-hub/
 │       ├── SupplyPanel.tsx        # Catalog + purchase flow
 │       └── EventStream.tsx        # Live dashboard
 ├── scripts/
-│   ├── deploy-contract.mjs        # WASM → upload → create → init
-│   └── verify-integration.mjs     # CI cross-check Rust ↔ frontend
+│   ├── deploy-contract.mjs             # WASM → upload → create → init
+│   ├── verify-integration.mjs          # CI cross-check Rust ↔ frontend
+│   └── generate_test_transactions.mjs  # Automated load/integration test only —
+│                                       # NOT real users, see docs/AUTOMATED_LOAD_TEST.md
 └── .github/workflows/ci.yml       # Tests + automated deploy
 ```
 
@@ -64,7 +66,7 @@ nova-supply-hub/
 | 5 | Deployment workflow | `deploy-contract.mjs` + **automated CI deploy job** |
 | 6 | Mobile responsive UI | CSS Grid/Flexbox, glassmorphism, `@media` breakpoints |
 | 7 | Loading states & error handling | `TransactionProgress`, `ErrorBoundary`, `Toast`, Friendbot retry, XDR fallback |
-| 8 | Tests | 5 Rust tests + 11 Vitest tests (16 total) |
+| 8 | Tests | 5 Rust tests + 14 Vitest tests (19 total) |
 | 9 | Production architecture | Separated `contract.ts` / `stellarTx.ts` / hooks |
 | 10 | Monitoring & analytics | Vercel Analytics + Speed Insights, custom wallet/purchase events |
 | 11 | User feedback collection | In-app `FeedbackWidget` → Formspree |
@@ -180,14 +182,15 @@ test test::test_purchase_before_init_panics - should panic ... ok
 test result: ok. 5 passed; 0 failed; 0 ignored
 ```
 
-### Frontend tests (Vitest, 11 passing)
+### Frontend tests (Vitest, 14 passing)
 
 ```powershell
 npm test
 ```
 
 Covers `contract.ts` function mapping, contract ID validation, catalog data, Connect Wallet UI
-rendering, and the Feedback widget (rating validation, unconfigured-endpoint handling).
+rendering, the Feedback widget (rating validation, unconfigured-endpoint handling), and
+`QuickActions`' Init Hub visibility (not-yet-initialized / already-live / still-checking states).
 
 ---
 
@@ -250,6 +253,19 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 ---
 
 ## 🚀 Level 5 — Growth & Iteration
+
+### Level 5 Submission Checklist
+
+- [x] Public GitHub repository
+- [x] Minimum 20+ meaningful commits (33 at last count)
+- [x] Live deployed application
+- [x] PPT/Pitch deck link
+- [ ] Demo video link — **still needed**
+- [ ] Proof of 50+ users — **10 of 50 verified on-chain**; see [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md)
+- [x] Screenshots of analytics/transaction activity
+- [x] Updated README and documentation
+- [x] User feedback iteration summary (table below)
+- [ ] Excel export of genuine Form responses — **no verified responses collected yet**
 
 ### User onboarding (50+ users)
 
