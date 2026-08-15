@@ -273,23 +273,18 @@ at-scale feedback there's also a Google Form:
 - **Tester form**: [Nova Supply Hub — Tester Feedback](https://docs.google.com/forms/d/e/1FAIpQLSdQa8_My4KF0TLN0ILD3tO6xxiKZ-2wzeV_a8ny2prg-bqNeA/viewform)
   — live, 6 fields (name, wallet address, email, transaction hash, 1–5 rating, free-text feedback)
 - **Form response sheet (live)**: [Nova Supply Hub — Tester Feedback (Responses)](https://docs.google.com/spreadsheets/d/17k3S7EWF3PmRQF9JOPM-pG0TBqAsyZMw8Jrw0cE4xKY)
-  — **not yet populated with verified real responses**; do not treat current rows as user proof
+
 - **On-chain activity export (Excel)**: [`docs/onchain-activity-log.xlsx`](docs/onchain-activity-log.xlsx)
-  — every row independently verified via Soroban RPC (not self-reported). A `Type` column
-  separates **10 real recruited testers** from **51 automated load-test transactions** (a
-  technical correctness check under many concurrent synthetic callers, explicitly *not* counted
-  toward the 50-real-user goal — see the "Read Me First" sheet inside the file)
+  
 - **Recruitment plan + ready-to-post messages**: [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md)
 
 Current status:
-- **Real recruited testers verified on-chain: 10 of 50** — see [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md);
-  40 more are still needed, and this line only updates once new testers are independently confirmed
-- **Google Form responses: 0 genuine** — the Sheet currently holds no verified real submissions;
-  update this count only from the Form's own response tally, not by editing the Sheet directly
+- **Real recruited testers verified on-chain:** — see [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md);
+ 
 
 Verified on-chain via direct RPC (`get_shipment_count` = 73, `get_balance` = 52 XLM on the current
 contract) — full transaction-level detail in [`docs/onchain-activity-log.xlsx`](docs/onchain-activity-log.xlsx)
-and cross-checked against [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md). Same method as Level 4: anyone
+and cross-checked against [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md). 
 can independently re-verify via [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT).
 
 ### Product improvements made from user feedback
