@@ -26,29 +26,36 @@ không ai giả được vì nó nằm trên blockchain công khai.
 App cũng tự hiện link "View on Stellar Expert →" cho từng giao dịch ngay trong tab **Activity**
 (xem `src/components/EventStream.tsx`), nên tester có thể tự chụp/copy link giao dịch của họ luôn.
 
-## Bảng ghi log chi tiết (lấy trực tiếp từ event log on-chain, không thủ công)
+## Bảng ghi log — cùng format cột với Google Form / Google Sheet
 
-| # | Địa chỉ ví (rút gọn) | Mua shipment # | Số tiền | Link Stellar Expert (tx) |
-|---|------------------------|:---:|---|--------------------------|
-| 1 | `GDMRNLCA…OAMHXQWW` | #2 | 0.75 XLM | https://stellar.expert/explorer/testnet/tx/5c0738a01deec3020fcaf0c02f6f47567f4ada3ab9fceddbca678dfd39fc26c3 |
-| 2 | `GDFZU5V6…F5V6GEBACT5KBE6BBDOZH` | #1 | 0.40 XLM | https://stellar.expert/explorer/testnet/tx/169163495dc906fd2b851d165789c95a5b4491983ef8949f3f8e57b3eca8afd7 |
-| 3 | `GD4EUWMX…QFKONMP5` | #4 | 0.55 XLM | https://stellar.expert/explorer/testnet/tx/fe7cefbb47280737757c1a920f2abf843b10301636010931634dc46bbbaf5156 |
-| 4 | `GCVNALSW…F5EUC` | #1 | 0.40 XLM | https://stellar.expert/explorer/testnet/tx/597d6cbd957a3d87912d3d675de64cbf3d7c2207064ae0cc75f2903d0515434e |
-| 5 | `GAAV4A3Z…LUTI66WE` | #3 | 0.90 XLM | https://stellar.expert/explorer/testnet/tx/edb51a597908d65a082bb620336233531ca824b025fda58fcc20d6fccc9f90f8 |
-| 6 | `GBHQESS7…H7F4Q4C` | #5 | 1.10 XLM | https://stellar.expert/explorer/testnet/tx/34ee94e5034c3286d29a26615974ca94ccc7d616f9dae5420b545d22c17238d6 |
-| 7 | `GCJKOM4K…OPAMAJO` | #1 | 0.40 XLM | https://stellar.expert/explorer/testnet/tx/f64349fd2bd8f2032ab69ff7969402fc5924dab16f41b3df9f8aff887ed0c329 |
-| 8 | `GBONJEIL…X4Q26MA3N` | #4 | 0.55 XLM | https://stellar.expert/explorer/testnet/tx/bc59a6eed411324aaf004d00d1a51770858fa2decb7a587f2cc63c8e8023e0ee |
-| 9 | `GB4CWHNV…3YKXJHT` | #1 | 0.40 XLM | https://stellar.expert/explorer/testnet/tx/d5bc36f6a6aecabd82b24556d779cd8e20f979f427a81ee6970250c61ebc6e6f |
-| 10 | `GA7TXXNP…FFOTWPCB` | #2 | 0.75 XLM | https://stellar.expert/explorer/testnet/tx/c623c7e2d87fac31c10bf0590111f779ba95f93fd3ccf77b1f95014925851521 |
+Sheet phản hồi thật: https://docs.google.com/spreadsheets/d/17k3S7EWF3PmRQF9JOPM-pG0TBqAsyZMw8Jrw0cE4xKY
+
+Cột giữ đúng thứ tự như Sheet (`Dấu thời gian | Name | Wallet | Email | Tx hash | Rate | Feedback`).
+10 dòng dưới đây là các giao dịch đã verify **trực tiếp on-chain** trước khi form tồn tại — cột
+Timestamp/Name/Email/Rate/Feedback sẽ được điền khi đối chiếu được với phản hồi form có cùng địa
+chỉ `Wallet`. Bảng số liệu tiền/mã hàng cụ thể giữ ở phần trước, đây là bảng đối chiếu chính.
+
+| Dấu thời gian | Name | Wallet | Email | Tx hash | Rate | Feedback |
+|---|---|---|---|---|---|---|
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GDMRNLCA…OAMHXQWW` | _(đối chiếu Sheet)_ | `5c0738a0…39fc26c3` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GDFZU5V6…6BBDOZH` | _(đối chiếu Sheet)_ | `16916349…3eca8afd7` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GD4EUWMX…QFKONMP5` | _(đối chiếu Sheet)_ | `fe7cefbb…4dc46bbbaf5156` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GCVNALSW…AEZ5JA3TUNVKYOQG6F5EUC` | _(đối chiếu Sheet)_ | `597d6cbd…03d0515434e` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GAAV4A3Z…LUTI66WE` | _(đối chiếu Sheet)_ | `edb51a59…fcc9f90f8` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GBHQESS7…CH7F4Q4C` | _(đối chiếu Sheet)_ | `34ee94e5…5d22c17238d6` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GCJKOM4K…5QOPAMAJO` | _(đối chiếu Sheet)_ | `f64349fd…f887ed0c329` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GBONJEIL…X4Q26MA3N` | _(đối chiếu Sheet)_ | `bc59a6ee…c8e8023e0ee` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GB4CWHNV…3YKXJHT` | _(đối chiếu Sheet)_ | `d5bc36f6…970250c61ebc6e6f` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
+| _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ | `GA7TXXNP…FFOTWPCB` | _(đối chiếu Sheet)_ | `c623c7e2…14925851521` | _(đối chiếu Sheet)_ | _(đối chiếu Sheet)_ |
 
 *(Địa chỉ ví thứ 11, `GCB4DGIS…ROXNAT`, là ví test của đội dev khi verify fix SDK — không tính vào
-10 tester thật ở trên.)*
+10 tester thật ở trên, không đưa vào bảng này.)*
 
 ---
 
-## Tóm tắt feedback (điền sau khi có phản hồi qua Formspree)
+## Tóm tắt feedback (điền sau khi có phản hồi qua Google Form)
 
 - Số lượng phản hồi:
-- Điểm trung bình (1-5 sao):
-- Nhận xét nổi bật (2-3 câu trích dẫn tiêu biểu):
+- Điểm trung bình (cột Rate):
+- Nhận xét nổi bật (2-3 câu trích dẫn tiêu biểu từ cột Feedback):
 - Vấn đề được nhắc nhiều nhất:
