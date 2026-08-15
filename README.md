@@ -256,9 +256,11 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 - **Google Form**: https://docs.google.com/forms/d/e/1FAIpQLSdQa8_My4KF0TLN0ILD3tO6xxiKZ-2wzeV_a8ny2prg-bqNeA/viewform
   — collects name, wallet address, email, transaction hash, a 1–5 rating, and written feedback.
   Sent alongside the wallet-connect flow in [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md).
-- **Exported responses (Excel)**: _link/attach here once 50+ responses are collected_ — from the
-  Form's Responses tab, create the linked Google Sheet, then File → Download → Microsoft Excel
-  (.xlsx), and commit it under `docs/user-feedback-export.xlsx` or link the Sheet directly.
+- **Responses Sheet**: https://docs.google.com/spreadsheets/d/17k3S7EWF3PmRQF9JOPM-pG0TBqAsyZMw8Jrw0cE4xKY
+  — linked Google Sheet for the Form above. **Not yet populated with verified real responses** as
+  of this commit; do not treat rows currently in it as user proof. Once 50+ genuine responses are
+  collected, export via File → Download → Microsoft Excel (.xlsx) and either commit that file under
+  `docs/user-feedback-export.xlsx` or update this link/note to point at the verified export.
 - **On-chain proof**: same method as Level 4 — the contract's full transaction history is public
   at [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT),
   independently verifiable, and cross-checked against Form responses in
