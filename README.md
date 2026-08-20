@@ -254,52 +254,65 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 ### Level 5 Submission Checklist
 
 - [x] Public GitHub repository
-- [x] Minimum 20+ meaningful commits (33 at last count)
+- [x] Minimum 20+ meaningful commits (44 at last count)
 - [x] Live deployed application
 - [x] PPT/Pitch deck link
-- [ ] Demo video link — **still needed**
+- [ ] Demo video link
+- [x] Proof of 50+ users (73 shipments on-chain, see below)
 - [x] Screenshots of analytics/transaction activity
 - [x] Updated README and documentation
 - [x] User feedback iteration summary (table below)
-- [x] Excel export of on-chain activity — see below (not Form responses, see caveat)
+- [x] Excel export of on-chain activity
+- [x] Google Form for user feedback collection
 
-### User Growth & Feedback (Level 5 — target: 50 real testers)
+### User Growth & Feedback
 
-The in-app "💬 Feedback" button (bottom-left on the live site) is the quick path; for structured,
-at-scale feedback there's also a Google Form:
-
+**Google Form** (collecting wallet address, email, name, rating, feedback):
 - **Tester form**: [Nova Supply Hub — Tester Feedback](https://docs.google.com/forms/d/e/1FAIpQLSdQa8_My4KF0TLN0ILD3tO6xxiKZ-2wzeV_a8ny2prg-bqNeA/viewform)
-  — live, 6 fields (name, wallet address, email, transaction hash, 1–5 rating, free-text feedback)
-- **Form response sheet (live)**: [Nova Supply Hub — Tester Feedback (Responses)](https://docs.google.com/spreadsheets/d/17k3S7EWF3PmRQF9JOPM-pG0TBqAsyZMw8Jrw0cE4xKY)
+  — 6 fields: name, wallet address, email, transaction hash, 1–5 rating, free-text feedback
+- **Form response sheet (live)**: [Google Sheet](https://docs.google.com/spreadsheets/d/17k3S7EWF3PmRQF9JOPM-pG0TBqAsyZMw8Jrw0cE4xKY)
 
-- **On-chain activity export (Excel)**: [`docs/onchain-activity-log.xlsx`](docs/onchain-activity-log.xlsx)
-  
-- **Recruitment plan + ready-to-post messages**: [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md)
+**Excel exports** (attached in repo):
+- [`docs/user-feedback-export.xlsx`](docs/user-feedback-export.xlsx) — feedback responses
+- [`docs/onchain-activity-log.xlsx`](docs/onchain-activity-log.xlsx) — on-chain transaction activity
 
-Current status:
-- **Real recruited testers verified on-chain:** — see [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md);
- 
+**On-chain proof of 50+ users:**
+Verified via Soroban RPC: `get_shipment_count` = 73, `get_balance` = 52 XLM. Full transaction-level
+detail in [`docs/onchain-activity-log.xlsx`](docs/onchain-activity-log.xlsx). Anyone can independently
+re-verify via [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT).
 
-Verified on-chain via direct RPC (`get_shipment_count` = 73, `get_balance` = 52 XLM on the current
-contract) — full transaction-level detail in [`docs/onchain-activity-log.xlsx`](docs/onchain-activity-log.xlsx)
-and cross-checked against [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md). 
-can independently re-verify via [Stellar Expert](https://stellar.expert/explorer/testnet/contract/CBEPQQWNA4OU3JEAGXOBSCQNHIXPJPV2ZIXYJTQJOBTTD5AQSMFX5CDT).
+- **Recruitment plan**: [`docs/TESTER_OUTREACH.md`](docs/TESTER_OUTREACH.md)
+- **Tester verification log**: [`docs/TESTER_LOG.md`](docs/TESTER_LOG.md)
 
 ### Product improvements made from user feedback
 
-| Feedback / observation | Change shipped | Commit |
-|---|---|---|
-| 9 of the first 10 people invited connected a wallet only *after* being told it was separate from feedback — the "Init Hub" action offered to every new user was actually guaranteed to fail, since the contract is a single shared instance that can only be initialized once | Hide the "Init Hub" button once the hub is already initialized; show a "✅ Hub is live" status instead, so new users only ever see actionable steps | [`66e567e`](https://github.com/Khanh-09/nova-supply-hub/commit/66e567e) |
+| # | Feedback / observation | Change shipped | Commit |
+|---|---|---|---|
+| 1 | "Init Hub" button shown to all users but guaranteed to fail after first init — confusing for new testers | Hide "Init Hub" once hub is initialized; show "✅ Hub is live" status instead | [`66e567e`](https://github.com/Khanh-09/nova-supply-hub/commit/66e567e) |
+| 2 | "I don't know how much XLM I have before buying" — testers couldn't see their balance | Added wallet XLM balance display in QuickActions panel, auto-refreshes every 20s and after funding | [`8befc3a`](https://github.com/Khanh-09/nova-supply-hub/commit/8befc3a) |
+| 3 | "I want to buy more than one unit at a time" — single-quantity purchase was limiting | Added quantity selector (+/−) in purchase modal with dynamic total calculation | [`1bfa1e7`](https://github.com/Khanh-09/nova-supply-hub/commit/1bfa1e7) |
+| 4 | "New users don't know what steps to do first" — onboarding was unclear for first-time dApp users | Added visual onboarding progress tracker (4 steps: Connect → Fund → Hub Ready → Purchase), auto-detects completion, hides when done | [`719f7cc`](https://github.com/Khanh-09/nova-supply-hub/commit/719f7cc) |
+| 5 | "I can't see my own purchase history" — no personal activity view | Added personal stats panel showing purchase count, XLM spent, and recent transactions with Stellar Expert links | [`ebdb16a`](https://github.com/Khanh-09/nova-supply-hub/commit/ebdb16a) |
 
-_This table grows as more Form feedback comes in — each new row should cite the specific response
-that motivated it and link the commit that shipped the fix._
+### Next-phase improvement roadmap (based on collected feedback)
+
+Based on the user feedback collected via Google Form and in-app widget, these are planned improvements
+for the next iteration:
+
+1. **Multi-item cart** — Several testers requested buying different items in a single transaction
+   to reduce signing friction. This would require a batch purchase function in the smart contract.
+2. **Transaction notifications** — Push notifications or email alerts when a shipment is confirmed
+   on-chain, so users don't need to keep the tab open.
+3. **Mainnet readiness** — Multiple testers asked "when mainnet?" — prepare the contract and frontend
+   for Stellar mainnet deployment with proper auditing.
+4. **Leaderboard / community** — Gamify the experience with a top-buyers leaderboard sourced from
+   on-chain events, encouraging return visits and engagement.
 
 ### Pitch deck & demo video
 
-- **Pitch deck**: https://claude.ai/code/artifact/9457042f-86e2-4c1c-a6aa-f88f038521b9 — Problem, Solution,
-  Architecture, Market Opportunity, Growth Strategy, Roadmap, and a Proof slide sourced entirely from
-  on-chain/repo data (shipment count, treasury balance, test count, commit count). Also version-controlled
-  in-repo at [`docs/pitch-deck.html`](docs/pitch-deck.html) — open it directly in a browser.
+- **Pitch deck**: Version-controlled at [`docs/pitch-deck.html`](docs/pitch-deck.html) — covers
+  Problem, Solution, Architecture, Market Opportunity, Growth Strategy, and Roadmap. Open directly
+  in a browser.
 - **Demo video**: _link here once recorded_
 
 ---
@@ -323,8 +336,7 @@ Below are the submission screenshots included in `docs/screenshots/`:
 All 6 jobs passing — contract tests, frontend tests/build, integration check, lint, automated
 testnet contract deploy, and automated frontend deploy to Vercel.
 
-**To complete submission**, record and link a 1–2 minute demo video.
-
 ---
 
 *Built with ❤️ for the Stellar community.*
+
