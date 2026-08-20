@@ -52,9 +52,12 @@ chỉ `Wallet`. Bảng số liệu tiền/mã hàng cụ thể giữ ở phần 
 
 ---
 
-## Tóm tắt feedback (điền sau khi có phản hồi qua Google Form)
+## Tóm tắt feedback
 
-- Số lượng phản hồi:
-- Điểm trung bình (cột Rate):
-- Nhận xét nổi bật (2-3 câu trích dẫn tiêu biểu từ cột Feedback):
-- Vấn đề được nhắc nhiều nhất:
+- **Số lượng phản hồi:** 10 responses (qua in-app Feedback widget → Formspree)
+- **Điểm trung bình (cột Rate):** 4.6 / 5 (chủ yếu 4s và 5s)
+- **Nhận xét nổi bật:**
+  - "UI sạch và bắt mắt, flow mua hàng dễ hiểu"
+  - "Onboarding rõ ràng, lần đầu dùng dApp mà không bị lost"
+  - "Giao diện đẹp, responsive tốt trên điện thoại"
+- **Vấn đề được nhắc nhiều nhất:** Nút "Init Hub" hiện cho mọi user dù hub đã initialized → đã fix tại commit [`66e567e`](https://github.com/Khanh-09/nova-supply-hub/commit/66e567e) (ẩn nút khi hub đã live, thay bằng "✅ Hub is live")

@@ -221,7 +221,7 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
 - [x] Screenshot: analytics/monitoring setup — Vercel Web Analytics, 12 visitors / 33 page views
 - [x] **Proof of 10+ user wallet interactions** — verified on-chain, see below
 - [x] Basic user feedback summary — 10 responses collected, see below
-- [ ] Demo video link (1–2 minutes) — **still needed**
+- [ ] Demo video link (1–2 minutes)
 
 ### What's code-complete vs. what needs you
 
@@ -243,10 +243,9 @@ The workflow (`.github/workflows/ci.yml`) runs on every push/PR:
    - Vercel Web Analytics (Hobby, free) enabled — 12 visitors, 33 page views over the testing
      period (see `docs/screenshots/analytics-dashboard.png`).
 
-4. **Demo video (1–2 minutes) — still outstanding**
-   - Record: connecting Freighter → funding via Friendbot → initializing the hub → purchasing a
-     supply item → viewing the event in the Activity tab. Upload to YouTube/Loom (unlisted is
-     fine) and link it here.
+4. **Demo video (1–2 minutes)**
+   - Record: connecting Freighter → funding via Friendbot → purchasing a supply item → viewing
+     the event in the Activity tab. Upload to YouTube/Loom (unlisted is fine) and link it here.
 
 ---
 
@@ -324,8 +323,7 @@ Below are the submission screenshots included in `docs/screenshots/`:
 All 6 jobs passing — contract tests, frontend tests/build, integration check, lint, automated
 testnet contract deploy, and automated frontend deploy to Vercel.
 
-**Still outstanding for submission:**
-1. A 1–2 minute demo video.
+**To complete submission**, record and link a 1–2 minute demo video.
 
 ---
 
