@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import type { SupplyItem } from '../lib/contract';
 import type { TxPhase } from '../lib/stellarTx';
 import TransactionProgress from './TransactionProgress';
@@ -7,7 +7,7 @@ interface PurchaseModalProps {
   item: SupplyItem | null;
   open: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (quantity: number) => void;
   loading: boolean;
   phase: TxPhase | null;
 }
@@ -20,6 +20,8 @@ export default function PurchaseModal({
   loading,
   phase,
 }: PurchaseModalProps) {
+  const [quantity, setQuantity] = useState(1);
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape' && !loading) onClose();
@@ -29,6 +31,7 @@ export default function PurchaseModal({
 
   useEffect(() => {
     if (!open) return;
+    setQuantity(1);
     document.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
     return () => {
@@ -39,7 +42,9 @@ export default function PurchaseModal({
 
   if (!open || !item) return null;
 
-  const priceXlm = (item.price / 10_000_000).toFixed(2);
+  const unitPriceXlm = item.price / 10_000_000;
+  const totalPrice = unitPriceXlm * quantity;
+  const maxQty = item.stock ?? 99;
 
   return (
     <div
@@ -74,10 +79,39 @@ export default function PurchaseModal({
           <p className="modal-item-name">{item.name}</p>
           <p className="modal-desc">{item.desc}</p>
 
+          <div className="quantity-selector">
+            <span className="quantity-label">Quantity</span>
+            <div className="quantity-controls">
+              <button
+                type="button"
+                className="qty-btn"
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                disabled={loading || quantity <= 1}
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
+              <span className="qty-value">{quantity}</span>
+              <button
+                type="button"
+                className="qty-btn"
+                onClick={() => setQuantity((q) => Math.min(maxQty, q + 1))}
+                disabled={loading || quantity >= maxQty}
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
           <div className="modal-summary">
             <div className="summary-row">
               <span>Unit price</span>
-              <span>{priceXlm} XLM</span>
+              <span>{unitPriceXlm.toFixed(2)} XLM</span>
+            </div>
+            <div className="summary-row">
+              <span>Quantity</span>
+              <span>×{quantity}</span>
             </div>
             <div className="summary-row">
               <span>Shipment ID</span>
@@ -85,7 +119,7 @@ export default function PurchaseModal({
             </div>
             <div className="summary-row summary-total">
               <span>Total due</span>
-              <strong>{priceXlm} XLM</strong>
+              <strong>{totalPrice.toFixed(2)} XLM</strong>
             </div>
           </div>
 
@@ -96,14 +130,14 @@ export default function PurchaseModal({
           <button type="button" className="btn btn-ghost" onClick={onClose} disabled={loading}>
             Cancel
           </button>
-          <button type="button" className="btn btn-primary" onClick={onConfirm} disabled={loading}>
+          <button type="button" className="btn btn-primary" onClick={() => onConfirm(quantity)} disabled={loading}>
             {loading ? (
               <>
                 <span className="btn-spinner" aria-hidden="true" />
                 Processing…
               </>
             ) : (
-              'Confirm & Pay'
+              `Pay ${totalPrice.toFixed(2)} XLM`
             )}
           </button>
         </div>

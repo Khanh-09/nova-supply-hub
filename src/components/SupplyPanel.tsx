@@ -48,13 +48,14 @@ export default function SupplyPanel() {
     }
   }, [error, showToast]);
 
-  const handlePurchase = useCallback(async () => {
+  const handlePurchase = useCallback(async (quantity: number) => {
     if (!selectedItem) return;
     try {
-      const result = await purchase(selectedItem.id, selectedItem.price);
+      const totalAmount = selectedItem.price * quantity;
+      const result = await purchase(selectedItem.id, totalAmount);
       showToast({
         type: 'success',
-        title: 'Shipment confirmed!',
+        title: `Shipment confirmed! (×${quantity})`,
         message: `Tx ${result.hash.slice(0, 12)}…`,
         duration: 8000,
       });
