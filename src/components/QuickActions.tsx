@@ -4,6 +4,7 @@ import CopyButton from './CopyButton';
 import { friendbotUrl, fundTestnetAccount } from '../lib/account';
 import { useToast } from '../context/ToastContext';
 import { useAccountStatus } from '../hooks/useAccountStatus';
+import { useWalletBalance } from '../hooks/useWalletBalance';
 
 interface QuickActionsProps {
   publicKey: string;
@@ -22,6 +23,7 @@ export default function QuickActions({
 }: QuickActionsProps) {
   const { showToast } = useToast();
   const { funded, checking, refresh } = useAccountStatus(publicKey);
+  const { balance: xlmBalance, loading: balanceLoading, refresh: refreshBalance } = useWalletBalance(publicKey);
   const [funding, setFunding] = useState(false);
 
   const handleFund = async () => {
@@ -33,7 +35,7 @@ export default function QuickActions({
         title: 'Account funded!',
         message: 'Wait 5–10 seconds before purchasing.',
       });
-      setTimeout(() => refresh(), 3000);
+      setTimeout(() => { refresh(); refreshBalance(); }, 3000);
       if (hash) {
         showToast({
           type: 'info',
@@ -72,13 +74,18 @@ export default function QuickActions({
           </code>
           <CopyButton text={publicKey} label="wallet address" />
         </div>
-        <div className="account-status">
+        <div className="account-status-row">
           {checking ? (
             <LoadingSpinner size="sm" />
           ) : (
             <span className={`status-pill ${funded ? 'status-funded' : 'status-unfunded'}`}>
               <span className="status-dot" />
               {funded ? 'Funded on Testnet' : 'Needs funding'}
+            </span>
+          )}
+          {xlmBalance !== null && (
+            <span className={`wallet-balance-badge ${balanceLoading ? 'shimmer' : ''}`}>
+              💎 {parseFloat(xlmBalance).toFixed(2)} XLM
             </span>
           )}
         </div>
@@ -122,6 +129,7 @@ export default function QuickActions({
           onClick={() => {
             onRefresh();
             refresh();
+            refreshBalance();
           }}
         >
           <span className="action-icon">🔄</span>
@@ -132,3 +140,4 @@ export default function QuickActions({
     </div>
   );
 }
+
