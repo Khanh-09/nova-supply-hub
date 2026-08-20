@@ -7,7 +7,12 @@ import EventStream from './components/EventStream';
 import Starfield from './components/Starfield';
 import MobileNav, { type MobileTab } from './components/MobileNav';
 import FeedbackWidget from './components/FeedbackWidget';
+import OnboardingTracker from './components/OnboardingTracker';
+import UserStats from './components/UserStats';
 import { useEventStream } from './hooks/useEventStream';
+import { useWalletContext } from './context/WalletContext';
+import { useAccountStatus } from './hooks/useAccountStatus';
+import { useContract } from './hooks/useContract';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -48,12 +53,26 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
 function AppContent() {
   const [mobileTab, setMobileTab] = useState<MobileTab>('shop');
   const eventStream = useEventStream(true);
+  const { publicKey, connected, signTransaction } = useWalletContext();
+  const { funded } = useAccountStatus(publicKey);
+  const { hubInitialized, shipmentCount } = useContract(publicKey, signTransaction);
 
   return (
     <div className="app">
       <Starfield />
       <div className="bg-gradient" aria-hidden="true" />
       <WalletConnect />
+
+      {connected && (
+        <div className="onboarding-wrap">
+          <OnboardingTracker
+            walletConnected={connected}
+            accountFunded={funded}
+            hubInitialized={hubInitialized}
+            hasPurchased={shipmentCount > 0}
+          />
+        </div>
+      )}
 
       <main className="main-grid">
         <div className={`main-panel ${mobileTab !== 'shop' ? 'mobile-hidden' : ''}`}>
@@ -63,7 +82,8 @@ function AppContent() {
           <EventStream {...eventStream} />
         </div>
         <div className={`account-panel mobile-only ${mobileTab !== 'account' ? 'mobile-hidden' : ''}`}>
-          <section className="panel glass animate-in">
+          <UserStats events={eventStream.events} publicKey={publicKey} />
+          <section className="panel glass animate-in" style={{ marginTop: '0.75rem' }}>
             <h2>Quick Help</h2>
             <ul className="help-list">
               <li>Install <a href="https://freighter.app" target="_blank" rel="noreferrer">Freighter</a> wallet</li>
@@ -80,7 +100,7 @@ function AppContent() {
       <FeedbackWidget />
 
       <footer className="app-footer desktop-only">
-        <p>Nova Supply Hub · Stellar Soroban Testnet · Level 4 Production MVP</p>
+        <p>Nova Supply Hub · Stellar Soroban Testnet · Level 5 Production MVP</p>
       </footer>
     </div>
   );

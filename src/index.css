@@ -1490,6 +1490,315 @@ code {
   font-size: 0.82em;
 }
 
+/* ── Wallet Balance Badge ── */
+.account-status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.wallet-balance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: rgba(94, 234, 212, 0.08);
+  border: 1px solid rgba(94, 234, 212, 0.2);
+  color: var(--accent);
+  font-family: var(--font-display);
+}
+
+/* ── Quantity Selector ── */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.85rem;
+  margin-bottom: 0.85rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.quantity-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-family: inherit;
+}
+
+.qty-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: rgba(94, 234, 212, 0.1);
+}
+
+.qty-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.qty-value {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* ── Onboarding Tracker ── */
+.onboarding-wrap {
+  position: relative;
+  z-index: 1;
+  padding: 0 0.75rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.onboarding-tracker {
+  padding: 1rem 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.onboarding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.onboarding-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.onboarding-icon {
+  font-size: 1.15rem;
+}
+
+.onboarding-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.onboarding-progress-text {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.onboarding-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.onboarding-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.onboarding-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.onboarding-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  padding: 0.6rem;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border);
+  opacity: 0.45;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.onboarding-step.step-done {
+  opacity: 1;
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.onboarding-step.step-current {
+  opacity: 1;
+  border-color: rgba(94, 234, 212, 0.4);
+  background: rgba(94, 234, 212, 0.04);
+}
+
+.onboarding-step-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.step-done .onboarding-step-icon {
+  color: var(--success);
+  font-size: 0.85rem;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  background: rgba(52, 211, 153, 0.15);
+  border-radius: 50%;
+}
+
+.onboarding-step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.onboarding-step-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.onboarding-step-desc {
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+/* ── User Stats Panel ── */
+.user-stats-panel {
+  padding: 1.15rem;
+}
+
+.user-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+}
+
+.user-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.85rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.user-stat-icon {
+  font-size: 1.25rem;
+}
+
+.user-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.user-stat-label {
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.user-purchases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.user-purchases-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.user-purchase-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s;
+}
+
+.user-purchase-row:hover {
+  border-color: var(--border-hover);
+}
+
+.user-purchase-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.user-purchase-id {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.user-purchase-ledger {
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.user-purchase-amount {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.user-purchase-link {
+  font-size: 0.85rem;
+  color: var(--accent-2);
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.user-purchase-link:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
 /* ── Responsive ── */
 @media (max-width: 1024px) {
   .hero {
@@ -1538,6 +1847,10 @@ code {
     width: auto;
     max-width: none;
   }
+
+  .onboarding-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 600px) {
@@ -1547,6 +1860,14 @@ code {
     text-align: center;
     margin: 0.5rem;
     padding: 0.75rem;
+  }
+
+  .onboarding-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .user-stats-grid {
+    grid-template-columns: 1fr;
   }
 
   .brand {
